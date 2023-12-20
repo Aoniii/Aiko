@@ -18,13 +18,13 @@ services:
 
   nodejs:
     container_name: Aiko
-    build: ./src
+    build: ./app
     restart: always
     networks:
       - aiko_network
     working_dir: /app
     volumes:
-      - ./src:/app
+      - ./app:/app
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
