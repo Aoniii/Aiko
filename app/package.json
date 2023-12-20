@@ -3,7 +3,7 @@
   "main": "main.js",
   "author": "Aoni",
   "version": "1.0.0",
-  "description": "Play guessing games on Discord about League Of Legends !",
+  "description": "Play guessing games on Discord about League of Legends !",
   "scripts": {
     "start": "node main.js"
   },
