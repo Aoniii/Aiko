@@ -17,7 +17,7 @@ services:
       POSTGRES_DB: "Aiko"
 
   adminer:
-    container_name: adminer
+    container_name: Aiko_adminer
     image: adminer
     restart: always
     ports:
