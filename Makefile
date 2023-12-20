@@ -20,5 +20,9 @@ red: clean up
 refd: fclean build
 
 db:
+	rm -rf file.sql
 	python3 scraper.py > file.sql
-	mysql -u ${POSTGRES_USER} -p Aiko < file.sql
+	mysql -u ${POSTGRES_USER} -p
+	USE Aiko;
+	source /root/Aiko/file.sql;
+	quit;
