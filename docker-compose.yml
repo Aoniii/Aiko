@@ -43,6 +43,10 @@ services:
       - postgres
     command: "npm start"
 
+volumes:
+  postgres:
+    driver: local
+
 networks:
   aiko_network:
     name: aiko_network
