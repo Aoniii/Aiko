@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: Aiko_postgres
+    image: postgres:10.5
+    restart: always
+    ports:
+      - 5432:5432
+    networks:
+      - aiko_network
+    volumes: 
+      - ./postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: "Aiko"
+
+  nodejs:
+    container_name: Aiko
+    build: ./src
+    restart: always
+    networks:
+      - aiko_network
+    working_dir: /app
+    volumes:
+      - ./data:/app
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: "Aiko"
+    depends_on:
+      - postgres
+    command: "npm start"
+
+networks:
+  networks_:
+    name: aiko_network
