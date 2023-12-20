@@ -6,7 +6,7 @@ services:
     image: postgres:10.5
     restart: always
     ports:
-      - 5432:5432
+      - :${POSTGRES_PORT}:5432
     networks:
       - aiko_network
     volumes: 
