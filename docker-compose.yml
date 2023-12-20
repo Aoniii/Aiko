@@ -34,5 +34,5 @@ services:
     command: "npm start"
 
 networks:
-  networks_:
+  aiko_network:
     name: aiko_network
