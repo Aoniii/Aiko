@@ -32,6 +32,8 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: "Aiko"
+      HOST: ${HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
     depends_on:
       - postgres
     command: "node server.js"
@@ -51,6 +53,8 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: "Aiko"
+      HOST: ${HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
     depends_on:
       - api
     command: "npm start"

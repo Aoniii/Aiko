@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo "Which ip do you want to use ?"
+read userInput
+echo "HOST=$userInput" > .env
+
 echo "Which port do you want to use for postgres ?"
 read userInput
 echo "POSTGRES_PORT=$userInput" >> .env
