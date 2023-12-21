@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 print('CREATE DATABASE Aiko;\n')
 print('\c Aiko;\n')
-print('CREATE TABLE users (id SERIAL PRIMARY KEY, name VARCHAR(32), img VARCHAR(256), nameP VARCHAR(32), nameQ VARCHAR(32), nameW VARCHAR(32), nameE VARCHAR(32), nameR VARCHAR(32), imgP VARCHAR(256), imgQ VARCHAR(256), imgW VARCHAR(256), imgE VARCHAR(256), imgR VARCHAR(256));\n')
+print('CREATE TABLE users (id SERIAL PRIMARY KEY, name VARCHAR(128), img VARCHAR(512), nameP VARCHAR(128), nameQ VARCHAR(128), nameW VARCHAR(128), nameE VARCHAR(128), nameR VARCHAR(128), imgP VARCHAR(512), imgQ VARCHAR(512), imgW VARCHAR(512), imgE VARCHAR(512), imgR VARCHAR(512));\n')
 
 response = requests.get('https://www.leagueoflegends.com/fr-fr/champions/')
 
