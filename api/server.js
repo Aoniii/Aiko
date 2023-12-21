@@ -14,3 +14,15 @@ const pool = new Pool({
   password: process.env.POSTGRES_PASSWORD,
   port: process.env.POSTGRES_PORT,
 });
+
+app.get('/data', (req, res) => {
+	pool.query('SELECT * FROM users', (error, results) => {
+	if (error)
+		throw error;
+	res.json(results.rows);
+	});
+});
+  
+app.listen(port, () => {
+	console.log(`Serveur en écoute sur le port ${port}`);
+});

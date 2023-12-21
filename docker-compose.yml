@@ -16,6 +16,25 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: "Aiko"
+  api:
+    container_name: Aiko_api
+    build: ./api
+    restart: always
+    ports:
+      - 3000:3000
+    networks:
+      - aiko_network
+    working_dir: /api
+    volumes:
+      - ./api:/api
+      - /api/node_modules
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: "Aiko"
+    depends_on:
+      - postgres
+    command: "node server.js"
   nodejs:
     container_name: Aiko
     build: ./app
@@ -33,7 +52,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: "Aiko"
     depends_on:
-      - postgres
+      - api
     command: "npm start"
 
 volumes:

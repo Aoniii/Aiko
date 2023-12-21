@@ -12,7 +12,6 @@ global.client = new Client({
 
 client.config = require('./config');
 
-
 require('./src/loader');
 
 client.login(client.config.app.token);
