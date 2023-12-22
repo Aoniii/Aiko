@@ -27,6 +27,12 @@ function similarity(s1, s2) {
 function swap(s) {
 	tab = ["eéèêë", "yÿ", "uûü", "iîï", "oôö", "aàâä", "cç", " '"];
 
+	s = s.replace("passif", "p");
+	if (s[0] == 'a')
+		s = s.replace("a", "q");
+	else if (s[0] == 'z')
+		s = s.replace("z", "w");
+
 	for (a = 0; a < tab.length; a++)
 		for (b = 1; b < tab[a].length; b++)
 			s = s.replaceAll(tab[a][b], tab[a][0]);
