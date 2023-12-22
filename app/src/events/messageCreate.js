@@ -23,13 +23,13 @@ module.exports = {
     if (!command) command = client.commands.get(client.commandAliases.get(cmd));
 
     if (command) {
-        if(command.ownerOnly && message.author.id !== config.owner) return message.reply({content: "Bu komutu sadece **geliştiricim** kullanabilir."});
+        if(command.ownerOnly && message.author.id !== config.owner) return message.reply({content: ""});
       if (command.cooldown) {
         if (cooldown.has(`${command.name}-${message.author.id}`)) {
         const nowDate = message.createdTimestamp;
         const waitedDate = cooldown.get(`${command.name}-${message.author.id}`) - nowDate;
           return message.reply({
-            content: `Cooldown şu an aktif, lütfen <t:${Math.floor(new Date(nowDate + waitedDate).getTime() / 1000)}:R> tekrar deneyin.`,
+            content: `${Math.floor(new Date(nowDate + waitedDate).getTime() / 1000)}`,
           }).then((msg) => setTimeout(() => msg.delete(), cooldown.get(`${command.name}-${message.author.id}`) - Date.now() + 1000));
         }
           command.run(client, message, args);

@@ -12,13 +12,13 @@ module.exports = {
     
       try {
         const command = client.slashCommands.get(interaction.commandName)
-        if(command.ownerOnly && interaction.user.id !== config.owner) return interaction.reply({content: "Bu komutu sadece **geliştiricim** kullanabilir.", ephemeral: true});
+        if(command.ownerOnly && interaction.user.id !== config.owner) return interaction.reply({content: "", ephemeral: true});
         if (command.cooldown) {
         if (cooldown.has(`${command.name}-${interaction.user.id}`)) {
         const nowDate = interaction.createdTimestamp;
         const waitedDate = cooldown.get(`${command.name}-${interaction.user.id}`) - nowDate;
           return interaction.reply({
-            content: `Cooldown şu an aktif, lütfen <t:${Math.floor(new Date(nowDate + waitedDate).getTime() / 1000)}:R> tekrar deneyin.`,
+            content: `${Math.floor(new Date(nowDate + waitedDate).getTime() / 1000)}`,
             ephemeral: true
           }).then((msg) => setTimeout(() => msg.delete(), cooldown.get(`${command.name}-${interaction.user.id}`) - Date.now() + 1000));
         }
@@ -34,7 +34,7 @@ module.exports = {
       }
       } catch (e) {
         console.error(e)
-        interaction.reply({content: "Komut çalıştırılırken bir sorunla karşılaşıldı! Lütfen tekrar deneyin.", ephemeral: true})
+        interaction.reply({content: "", ephemeral: true})
       }
     }
   }

@@ -7,7 +7,7 @@ module.exports = {
   once: true,
   execute: async (client) => {
     const rest = new REST({ version: "10" }).setToken(client.token);
-    const activities = [`Developed by memte.`, `${client.user.username}`];
+    const activities = [`/help`, `${client.user.username}`];
     let nowActivity = 0;
 
     const botPresence = () => {
@@ -18,8 +18,6 @@ module.exports = {
     }
 
     botPresence();
-
-    client.log(`${client.user.username} Aktif Edildi!`);
 
     try {
       await rest.put(Routes.applicationCommands(client.user.id), {
