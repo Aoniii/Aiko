@@ -16,7 +16,7 @@ function similarity(s1, s2) {
 	var longerLength = longer.length;
 
 	if (longerLength == 0)
-		return 1.0;
+		return (1.0);
 
 	return (longerLength - distance(longer, shorter)) / parseFloat(longerLength);
 }
@@ -58,8 +58,8 @@ function distance(s1, s2) {
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName("champion")
-		.setDescription("Devine le champion !"),
+		.setName("spellname")
+		.setDescription("Devine le nom du sort !"),
 		cooldown: 5000,
 		ownerOnly: false,
 	run: async (client, interaction) => {
@@ -79,28 +79,31 @@ module.exports = {
 
 		const random = 0 + Math.floor((max - 1) * Math.random());
 
-		const name = data[random].name;
+		const img = [data[random].imgp, data[random].imgq, data[random].imgw, data[random].imge, data[random].imgr];
+		const name = [data[random].namep, data[random].nameq, data[random].namew, data[random].namee, data[random].namer];
+
+		const random2 = 0 + Math.floor(4 * Math.random());
 
 		const embed = new EmbedBuilder()
 			.setColor(0x0099FF)
-			.setTitle("Qui est ce champion ?")
-			.setImage(data[random].img)
+			.setTitle("Quel est le nom de ce sort ?")
+			.setImage(img[random2])
 
 		interaction.reply({ embeds: [embed] });
 
 		const filter = (m) => m.author.id !== client.user.id;
-		const collector = client.channels.cache.get(interaction.channelId).createMessageCollector({ filter, time: 15000 });
+		const collector = client.channels.cache.get(interaction.channelId).createMessageCollector({ filter, time: 30000 });
 
 		collector.on("collect", (collected) => {
-			if (similarity(collected.content, name) >= 0.8) {
-				interaction.followUp(`Bravo ! Vous avez deviné que c'est ${name} !`);
+			if (similarity(collected.content, name[random2]) >= 0.8) {
+				interaction.followUp("Bravo ! Vous avez deviné que c'est " + name[random2] + " !");
 				collector.stop();
 			}
 		});
 
 		collector.on("end", (collected, reason) => {
 			if (reason === "time") {
-				interaction.followUp("Le temps pour deviner est écoulé. La réponse correcte était " + name);
+				interaction.followUp("Le temps pour deviner est écoulé. La réponse correcte était " + name[random2] + " !");
 			}
 		});
 	}

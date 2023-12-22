@@ -5,6 +5,9 @@ function similarity(s1, s2) {
 	s1 = swap(s1.toLowerCase());
 	s2 = swap(s2.toLowerCase());
 
+	if (s1[0] != s2[0])
+		return (0);
+
 	var longer = s1;
 	var shorter = s2;
 
@@ -16,7 +19,7 @@ function similarity(s1, s2) {
 	var longerLength = longer.length;
 
 	if (longerLength == 0)
-		return 1.0;
+		return (1.0);
 
 	return (longerLength - distance(longer, shorter)) / parseFloat(longerLength);
 }
@@ -58,8 +61,8 @@ function distance(s1, s2) {
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName("champion")
-		.setDescription("Devine le champion !"),
+		.setName("spell")
+		.setDescription("Devine le sort !"),
 		cooldown: 5000,
 		ownerOnly: false,
 	run: async (client, interaction) => {
@@ -79,28 +82,34 @@ module.exports = {
 
 		const random = 0 + Math.floor((max - 1) * Math.random());
 
-		const name = data[random].name;
+		const champ = data[random].name;
+		const l = ["P", "Q", "W", "E", "R"];
+		const img = [data[random].imgp, data[random].imgq, data[random].imgw, data[random].imge, data[random].imgr];
+
+		const random2 = 0 + Math.floor(4 * Math.random());
+		const name = l[random2] + " - " + champ;
 
 		const embed = new EmbedBuilder()
 			.setColor(0x0099FF)
-			.setTitle("Qui est ce champion ?")
-			.setImage(data[random].img)
+			.setTitle("Quel est ce sort ?")
+			.setDescription("Exemple de reponse: Q - Aatrox")
+			.setImage(img[random2])
 
 		interaction.reply({ embeds: [embed] });
 
 		const filter = (m) => m.author.id !== client.user.id;
-		const collector = client.channels.cache.get(interaction.channelId).createMessageCollector({ filter, time: 15000 });
+		const collector = client.channels.cache.get(interaction.channelId).createMessageCollector({ filter, time: 30000 });
 
 		collector.on("collect", (collected) => {
 			if (similarity(collected.content, name) >= 0.8) {
-				interaction.followUp(`Bravo ! Vous avez deviné que c'est ${name} !`);
+				interaction.followUp("Bravo ! Vous avez deviné que c'est le " + (l[random2] == 'P' ? "Passif" : l[random2]) + " de " + champ + " !");
 				collector.stop();
 			}
 		});
 
 		collector.on("end", (collected, reason) => {
 			if (reason === "time") {
-				interaction.followUp("Le temps pour deviner est écoulé. La réponse correcte était " + name);
+				interaction.followUp("Le temps pour deviner est écoulé. La réponse correcte était le " + (l[random2] == 'P' ? "Passif" : l[random2]) + " de " + champ + " !");
 			}
 		});
 	}
