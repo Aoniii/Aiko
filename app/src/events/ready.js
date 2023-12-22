@@ -12,7 +12,7 @@ module.exports = {
 
     const botPresence = () => {
       client.user.presence.set({
-        activities: [{ name: `${activities[nowActivity++ % activities.length]}`, type: ActivityType.Listening }],
+        activities: [{ name: `${activities[nowActivity++ % activities.length]}`, type: ActivityType.Playing }],
       });
       setTimeout(botPresence, 300000);
     }
