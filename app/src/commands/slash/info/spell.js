@@ -1,69 +1,6 @@
 const { EmbedBuilder, PermissionsBitField } = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
-
-function similarity(s1, s2) {
-	s1 = swap(s1.toLowerCase());
-	s2 = swap(s2.toLowerCase());
-
-	if (s1[0] != s2[0])
-		return (0);
-
-	var longer = s1;
-	var shorter = s2;
-
-	if (s1.length < s2.length) {
-		longer = s2;
-		shorter = s1;
-	}
-
-	var longerLength = longer.length;
-
-	if (longerLength == 0)
-		return (1.0);
-
-	return (longerLength - distance(longer, shorter)) / parseFloat(longerLength);
-}
-
-function swap(s) {
-	tab = ["eéèêë", "yÿ", "uûü", "iîï", "oôö", "aàâä", "cç", " '"];
-
-	s = s.replace("passif", "p");
-	if (s[0] == 'a')
-		s = s.replace("a", "q");
-	else if (s[0] == 'z')
-		s = s.replace("z", "w");
-
-	for (a = 0; a < tab.length; a++)
-		for (b = 1; b < tab[a].length; b++)
-			s = s.replaceAll(tab[a][b], tab[a][0]);
-
-	return (s);
-}
-
-function distance(s1, s2) {
-	var costs = new Array();
-
-	for (var i = 0; i <= s1.length; i++) {
-		var lastValue = i;
-
-		for (var j = 0; j <= s2.length; j++) {
-			if (i == 0)
-				costs[j] = j;
-			else {
-				if (j > 0) {
-					var newValue = costs[j - 1];
-					if (s1.charAt(i - 1) != s2.charAt(j - 1))
-						newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
-					costs[j - 1] = lastValue;
-					lastValue = newValue;
-				}
-			}
-		}
-		if (i > 0)
-			costs[s2.length] = lastValue;
-	}
-	return costs[s2.length];
-}
+const similarity = require('../../../similarity.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -107,7 +44,7 @@ module.exports = {
 		const collector = client.channels.cache.get(interaction.channelId).createMessageCollector({ filter, time: 30000 });
 
 		collector.on("collect", (collected) => {
-			if (similarity(collected.content, name) >= 0.8) {
+			if (similarity(collected.content, name, true) >= 0.8) {
 				interaction.followUp("Bravo ! Vous avez deviné que c'est le " + (l[random2] == 'P' ? "Passif" : l[random2]) + " de " + champ + " !");
 				collector.stop();
 			}
